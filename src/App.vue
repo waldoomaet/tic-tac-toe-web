@@ -3,9 +3,7 @@
     <div class="p-5">
       <div class="row">
         <div class="col">
-          <h5 class="text-light text-start p-0">
-            Enter the IP address:
-          </h5>
+          <h5 class="text-light text-start p-0">Enter the IP address:</h5>
           <input
             class="field"
             type="text"
@@ -14,9 +12,7 @@
           />
         </div>
         <div class="col">
-          <h5 class="text-light text-start p-0">
-            Enter the port number:
-          </h5>
+          <h5 class="text-light text-start p-0">Enter the port number:</h5>
           <input class="field" type="text" v-model="port" placeholder="Port" />
         </div>
       </div>
@@ -32,7 +28,38 @@
         </button>
       </div>
       <div class="row mt-3">
-        <b class="text-light h4">{{ message }}</b>
+        <b class="text-light h4">
+          <svg
+            v-if="wonIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            fill="#004d4d"
+            class="bi bi-emoji-wink"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+            />
+            <path
+              d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm1.757-.437a.5.5 0 0 1 .68.194.934.934 0 0 0 .813.493c.339 0 .645-.19.813-.493a.5.5 0 1 1 .874.486A1.934 1.934 0 0 1 10.25 7.75c-.73 0-1.356-.412-1.687-1.007a.5.5 0 0 1 .194-.68z"
+            />
+          </svg>
+          <svg
+          v-else-if="lostIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            fill="#cc0000"
+            class="bi bi-emoji-frown"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
+            />
+          </svg>
+          {{ message }}</b
+        >
         <button v-if="gameOver" type="button" @click="playAgain">
           Play again?
         </button>
@@ -140,7 +167,7 @@ export default {
         [Game.none, Game.none, Game.none],
         [Game.none, Game.none, Game.none],
       ],
-      host: "172.27.22.39",
+      host: "31.208.229.75",
       port: 13254,
       socket: null,
       player: null,
@@ -150,6 +177,8 @@ export default {
       disableAll: true,
       message: "",
       twoPlayers: false,
+      wonIcon: false,
+      lostIcon: false,
     };
   },
   methods: {
@@ -216,7 +245,8 @@ export default {
         this.myTurn = false;
         this.message = `Connected as player ${this.player}. Player x is first!`;
       }
-      this.twoPlayers = true;
+      this.wonIcon = false;
+      this.lostIcon = false;
       this.stopGame = false;
       this.gameOver = false;
     },
@@ -233,6 +263,7 @@ export default {
             })
           );
           this.message = `You won!`;
+          this.wonIcon = true;
           this.gameOver = true;
           return;
         } else if (this.boardFull()) {
@@ -282,6 +313,7 @@ export default {
             } else {
               this.message = `Connected as player ${this.player}. Player x is first!`;
             }
+            this.twoPlayers = true;
             this.stopGame = false;
             this.disableAll = false;
             break;
@@ -294,6 +326,7 @@ export default {
           case Status.lose:
             this.stopGame = true;
             this.message = "Well... This is ackward... You lost...";
+            this.lostIcon = true;
             this.gameOver = true;
             break;
           case Status.draw:
@@ -332,11 +365,19 @@ export default {
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
       rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-      &:hover{
-        transform:translateY(-2px);
-        transition: all .2s;
-        background-image: linear-gradient(to right top, #6682ac, #7d8ebf, #9699d0, #b1a4df, #ceafed);
-      color:#fff;      }
+    &:hover {
+      transform: translateY(-2px);
+      transition: all 0.2s;
+      background-image: linear-gradient(
+        to right top,
+        #6682ac,
+        #7d8ebf,
+        #9699d0,
+        #b1a4df,
+        #ceafed
+      );
+      color: #fff;
+    }
     /* background-image: linear-gradient(to right top, #051937, #0e296a, #3b349c, #7733c8, #bd12eb); */
   }
   .field {
