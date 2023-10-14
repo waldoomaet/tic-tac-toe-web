@@ -18,12 +18,8 @@
       </div>
 
       <div class="d-flex">
-        <button
-          class="connect-btn mt-2 p-2"
-          type="button"
-          @click="connectToServer"
-          :disabled="host.length < 0 || port.length < 0"
-        >
+        <button class="connect-btn mt-2 p-2" type="button" @click="connectToServer"
+          :disabled="host.length < 0 || port.length < 0">
           <b>Connect</b>
         </button>
       </div>
@@ -67,87 +63,51 @@
       <div class="game-board p-5" v-if="twoPlayers">
         <div class="row board-row">
           <div class="col board-item border-bottom">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(0, 0)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(0, 0)">
               {{ board[0][0] }}
             </button>
           </div>
           <div class="col board-item border-left border-bottom">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(0, 1)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(0, 1)">
               {{ board[0][1] }}
             </button>
           </div>
           <div class="col board-item border-left border-bottom">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(0, 2)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(0, 2)">
               {{ board[0][2] }}
             </button>
           </div>
         </div>
         <div class="row board-row">
           <div class="col board-item border-bottom">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(1, 0)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(1, 0)">
               {{ board[1][0] }}
             </button>
           </div>
           <div class="col board-item border-left border-bottom">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(1, 1)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(1, 1)">
               {{ board[1][1] }}
             </button>
           </div>
           <div class="col board-item border-left border-bottom">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(1, 2)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(1, 2)">
               {{ board[1][2] }}
             </button>
           </div>
         </div>
         <div class="row board-row">
           <div class="col board-item">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(2, 0)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(2, 0)">
               {{ board[2][0] }}
             </button>
           </div>
           <div class="col board-item border-left">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(2, 1)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(2, 1)">
               {{ board[2][1] }}
             </button>
           </div>
           <div class="col board-item border-left">
-            <button
-              class="board-btn"
-              type="button"
-              @click="() => onClick(2, 2)"
-            >
+            <button class="board-btn" type="button" @click="() => onClick(2, 2)">
               {{ board[2][2] }}
             </button>
           </div>
@@ -297,13 +257,8 @@ export default {
         const data = JSON.parse(event.data);
         switch (data.status) {
           case Status.connected:
-            if (data.id == 0) {
-              this.player = Game.x;
-              this.myTurn = true;
-            } else {
-              this.player = Game.o;
-              this.myTurn = false;
-            }
+            this.player = data.player;
+            this.myTurn = this.player == Game.x;
             this.message = `Connected as player ${this.player}`;
             break;
           case Status.started:
@@ -354,10 +309,12 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 .game-container {
   width: 100%;
   height: 100vh;
   background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+
   .connect-btn {
     border: none;
     border-radius: 10px;
@@ -380,6 +337,7 @@ export default {
     }
     /* background-image: linear-gradient(to right top, #051937, #0e296a, #3b349c, #7733c8, #bd12eb); */
   }
+
   .field {
     padding: 10px;
     border-radius: 10px;
@@ -388,10 +346,12 @@ export default {
     background-color: rgba(238, 235, 235, 0.624);
     width: 100%;
   }
+
   .board-item {
     /* margin:10px; */
     padding: 0;
     font-size: 2rem;
+
     .board-btn {
       height: 8rem;
       background-color: transparent;
@@ -400,9 +360,11 @@ export default {
       width: 100%;
     }
   }
+
   .border-left {
     border-left: 2px solid #fff;
   }
+
   .border-bottom {
     border-bottom: 2px solid #fff !important;
   }

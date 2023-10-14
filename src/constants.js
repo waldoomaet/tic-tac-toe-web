@@ -1,7 +1,7 @@
 export class Game {
     static none = '';
-    static x = 'X';
-    static o = 'O';
+    static x = 'X'.toUpperCase();
+    static o = 'O'.toUpperCase();
 }
 
 export class Status {
