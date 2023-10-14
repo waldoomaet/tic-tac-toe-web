@@ -1,7 +1,7 @@
 export class Game {
-    static none = 'empty';
-    static x = 'x';
-    static o = 'o';
+    static none = '';
+    static x = 'X';
+    static o = 'O';
 }
 
 export class Status {
