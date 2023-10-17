@@ -58,7 +58,7 @@
           {{ message }}</b
         >
         <div class="d-flex justify-content-center">
-        <button v-if="gameOver" class="primary-btn p-2" type="button" @click="playAgain">
+        <button v-if="gameOver || isDraw" class="primary-btn p-2" type="button" @click="playAgain">
           <b>Click to play again!</b>
           
         </button>
@@ -179,6 +179,7 @@ export default {
       twoPlayers: false,
       wonIcon: false,
       lostIcon: false,
+      isDraw:false
     };
   },
   methods: {
@@ -248,6 +249,7 @@ export default {
       this.wonIcon = false;
       this.lostIcon = false;
       this.stopGame = false;
+      this.isDrawing = false;
       this.gameOver = false;
     },
     onClick(row, col) {
@@ -326,6 +328,7 @@ export default {
             break;
           case Status.draw:
             this.stopGame = true;
+            this.isDraw = true;
             this.message = "It's a draw!";
             break;
           case Status.playAgain:
