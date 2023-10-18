@@ -1,4 +1,4 @@
-export class Game {
+export class Play {
     static none = '';
     static x = 'X'.toUpperCase();
     static o = 'O'.toUpperCase();

@@ -158,14 +158,14 @@
 </template>
 
 <script>
-import { Game, Status } from "./constants";
+import { Play, Status } from "./constants";
 export default {
   data() {
     return {
       board: [
-        [Game.none, Game.none, Game.none],
-        [Game.none, Game.none, Game.none],
-        [Game.none, Game.none, Game.none],
+        [Play.none, Play.none, Play.none],
+        [Play.none, Play.none, Play.none],
+        [Play.none, Play.none, Play.none],
       ],
       host: "31.208.229.75",
       port: 13254,
@@ -184,12 +184,12 @@ export default {
   },
   methods: {
     disableButton(row, col) {
-      return this.disableAll || this.board[row][col] !== Game.none;
+      return this.disableAll || this.board[row][col] !== Play.none;
     },
     boardFull() {
       for (let i = 0; i < this.board.length; i++) {
         for (let j = 0; j < this.board[i].length; j++) {
-          if (this.board[i][j] == Game.none) {
+          if (this.board[i][j] == Play.none) {
             return false;
           }
         }
@@ -235,11 +235,11 @@ export default {
     },
     resetGame() {
       this.board = [
-        [Game.none, Game.none, Game.none],
-        [Game.none, Game.none, Game.none],
-        [Game.none, Game.none, Game.none],
+        [Play.none, Play.none, Play.none],
+        [Play.none, Play.none, Play.none],
+        [Play.none, Play.none, Play.none],
       ];
-      if (this.player == Game.x) {
+      if (this.player == Play.x) {
         this.myTurn = true;
         this.message = `Connected as player ${this.player}. You're first!`;
       } else {
@@ -253,7 +253,7 @@ export default {
       this.gameOver = false;
     },
     onClick(row, col) {
-      if (this.myTurn && !this.stopGame && this.board[row][col] == Game.none) {
+      if (this.myTurn && !this.stopGame && this.board[row][col] == Play.none) {
         this.board[row][col] = this.player;
 
         if (this.won(this.player)) {
@@ -300,12 +300,12 @@ export default {
         switch (data.status) {
           case Status.connected:
             this.player = data.player;
-            this.myTurn = this.player == Game.x;
+            this.myTurn = this.player == Play.x;
             this.message = `Connected as player ${this.player}`;
             break;
           case Status.started:
             this.resetGame();
-            if (this.player == Game.x) {
+            if (this.player == Play.x) {
               this.message = `Connected as player ${this.player}. You're first!`;
             } else {
               this.message = `Connected as player ${this.player}. Player x is first!`;
